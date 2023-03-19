@@ -1,2 +1,3 @@
 (library
- (name life))
+ (name life)
+ (public_name Life))
