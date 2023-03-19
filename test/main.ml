@@ -1,4 +1,6 @@
 open OUnit2
+open Life
+open Cell
 
 let get_alive_test (name : string) (input : Cell.t) (expected_output : bool) :
     test =

@@ -3,5 +3,8 @@
 (** @canonical Life.Cell *)
 module Cell = Life__Cell
 
+(** @canonical Life.Display *)
+module Display = Life__Display
+
 (** @canonical Life.World *)
 module World = Life__World
