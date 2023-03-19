@@ -1,7 +1,7 @@
 type t
 (** The abstract type of one cell in the grid of the game of life*)
 
-val init_cell : bool -> t
+val init_cell : bool -> int * int -> t list -> t
 (** Initializes a new cell of type t, alive if bool = true, dead if bool = false*)
 
 val get_alive : t -> bool
