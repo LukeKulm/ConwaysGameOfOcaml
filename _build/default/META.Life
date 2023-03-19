@@ -1,6 +1,0 @@
-description = ""
-requires = ""
-archive(byte) = "life.cma"
-archive(native) = "life.cmxa"
-plugin(byte) = "life.cma"
-plugin(native) = "life.cmxs"
