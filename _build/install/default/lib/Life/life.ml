@@ -1,0 +1,1 @@
+../../../../default/src/life.ml-gen

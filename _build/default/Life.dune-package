@@ -1,0 +1,69 @@
+(lang dune 3.7)
+(name Life)
+(sections (lib .) (libexec .) (doc ../../doc/Life))
+(files
+ (lib
+  (META
+   cell.ml
+   cell.mli
+   display.ml
+   display.mli
+   dune-package
+   life.a
+   life.cma
+   life.cmi
+   life.cmt
+   life.cmx
+   life.cmxa
+   life.ml
+   life__Cell.cmi
+   life__Cell.cmt
+   life__Cell.cmti
+   life__Cell.cmx
+   life__Display.cmi
+   life__Display.cmt
+   life__Display.cmti
+   life__Display.cmx
+   life__World.cmi
+   life__World.cmt
+   life__World.cmti
+   life__World.cmx
+   opam
+   world.ml
+   world.mli))
+ (libexec (life.cmxs))
+ (doc (README.md)))
+(library
+ (name Life)
+ (kind normal)
+ (archives (byte life.cma) (native life.cmxa))
+ (plugins (byte life.cma) (native life.cmxs))
+ (native_archives life.a)
+ (main_module_name Life)
+ (modes byte native)
+ (modules
+  (wrapped
+   (group
+    (alias
+     (obj_name life)
+     (visibility public)
+     (kind alias)
+     (source (path Life) (impl (path life.ml-gen))))
+    (name Life)
+    (modules
+     (module
+      (obj_name life__Cell)
+      (visibility public)
+      (source (path Cell) (intf (path cell.mli)) (impl (path cell.ml))))
+     (module
+      (obj_name life__Display)
+      (visibility public)
+      (source
+       (path Display)
+       (intf (path display.mli))
+       (impl (path display.ml))))
+     (module
+      (obj_name life__World)
+      (visibility public)
+      (source (path World) (intf (path world.mli)) (impl (path world.ml))))))
+   (wrapped true))))
