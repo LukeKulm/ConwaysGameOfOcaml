@@ -1,4 +1,3 @@
-(* module Cell = sig *)
 type t
 (** The abstract type of one cell in the grid of the game of life*)
 
