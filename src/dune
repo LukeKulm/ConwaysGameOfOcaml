@@ -1,3 +1,4 @@
 (library
  (name life)
- (public_name Life))
+ (public_name Life)
+ (libraries graphics threads))
