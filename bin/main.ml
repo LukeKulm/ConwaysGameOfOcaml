@@ -1,10 +1,10 @@
 open Graphics
 
-let main () =
-  open_graph " 600X600";
-  moveto 0 0;
-  draw_string "Resize window, then press a key to start...";
-  ignore (read_key () : char);
-  clear_graph ()
+let rec animate () =
+  open_graph " 500X500";
+  set_window_title "The Game of Life";
+  Unix.sleepf 0.05;
+  (* Wait for a short time before updating the cells again *)
+  animate ()
 
-let _ = main ()
+let _ = animate ()
