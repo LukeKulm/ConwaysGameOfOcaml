@@ -24,5 +24,7 @@ let cell_dead_update cell =
   if check_neighbors cell = 3 then init_cell true cell.position cell.neighbors
   else init_cell false cell.position cell.neighbors
 
+(* I think this is what was intended Dylan? Added arguments for the two function
+   calls in the conditional branches *)
 let cell_update cell =
-  if cell.alive = true then cell_alive_update else cell_dead_update
+  if cell.alive = true then cell_alive_update cell else cell_dead_update cell
