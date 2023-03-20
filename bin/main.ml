@@ -1,4 +1,5 @@
 open Graphics
+open Life.Display
 
 let rec animate () =
   open_graph " 500X500";
