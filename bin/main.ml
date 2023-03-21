@@ -1,16 +1,21 @@
 open Graphics
 open Life.Display
+open Life.World
 
-let rec animate () =
+let rec animate state =
+  clear_graph ();
+  draw_frame state;
+  Unix.sleepf 0.25;
+  animate (world_update state)
+
+let start () =
   open_graph
     (" "
-    ^ string_of_int (fst window_size)
+    ^ string_of_int (fst (window_size initial))
     ^ "X"
-    ^ string_of_int (snd window_size));
+    ^ string_of_int (snd (window_size initial)));
   set_window_title "The Game of Life";
-  draw_string "Press a key when your happy with the start (;";
-  Unix.sleepf 0.25;
-  animate ()
+  animate initial
 (* Wait for a short time before updating the cells again *)
 
-let _ = animate ()
+let _ = start ()
