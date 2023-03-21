@@ -33,7 +33,7 @@ let rec init_cell_helper matrix row_counter acc =
   | h :: t -> (
       match h with
       | h :: t -> Cell.init_cell false (h, row_counter) [] :: acc
-      | [] -> init_cell_helper t (row_counter + 1))
+      | [] -> init_cell_helper t (row_counter + 1) [])
   | [] -> acc
 
 (* essentially just want to call Cell.init_cell, passing the element's row and
@@ -41,6 +41,6 @@ let rec init_cell_helper matrix row_counter acc =
 let init_cells col row = init_cell_helper (init_matrix col row []) 0 []
 
 let init_world c r =
-  { cols = c; rows = r; cells = init_cells (list_upto c) (list_upto r) }
+  { cols = c; rows = r; cells = [ init_cells (list_upto c) (list_upto r) ] }
 
 let world_update = raise NotImplemented

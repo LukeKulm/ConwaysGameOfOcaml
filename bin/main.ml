@@ -6,7 +6,7 @@ let rec animate state =
   clear_graph ();
   draw_frame state;
   Unix.sleepf 0.25;
-  animate (world_update state)
+  animate (update_world state)
 
 let start () =
   open_graph

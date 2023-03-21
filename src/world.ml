@@ -1,46 +1,82 @@
-(* to create the list of neighbors for cell at pos (x,y) in array a, here are
-   the indices of who we want to check: a[x][y+1] a[x][y-1] a[x+1][y+1]
-   a[x+1][y-1] a[x-1][y] a[x+1][y] a[x-1][y-1] a[x-1][y+1]*)
-
 exception NotImplemented
 
-type t = {
-  cols : int;
-  rows : int;
-  cells : Cell.t list list;
-}
+type cell =
+  | Dead
+  | Alive
 
-let get_dims grid = (grid.cols, grid.rows)
+type t = cell array array
 
-let rec in_selected lst pt =
-  List.filter (fun s -> if s = pt then true else false) lst
+let init_world width height = Array.make_matrix height width Dead
+let get_dims world = (Array.length world.(0), Array.length world)
+let set_cell world x y cell = world.(y).(x) <- cell
+let get_cell world x y = world.(y).(x)
 
-let make_neighbors pt = raise NotImplemented
-let init_row = raise NotImplemented
+let init_world_with_alive width height alive =
+  let world = init_world width height in
+  List.iter (fun (x, y) -> set_cell world x y Alive) alive;
+  world
 
-let rec init_matrix (col : int list) (row : int list) (acc : int list list) =
-  match row with
-  | h :: t -> init_matrix col t (col :: acc)
-  | [] -> acc
+let get_alive world =
+  let alive = ref [] in
+  for y = 0 to Array.length world - 1 do
+    for x = 0 to Array.length world.(0) - 1 do
+      if get_cell world x y = Alive then alive := (x, y) :: !alive
+    done
+  done;
+  !alive
 
-let rec list_upto_helper i n =
-  if i = n then [] else i :: list_upto_helper (i + 1) n
+let number_living_neighbors world x y =
+  let count = ref 0 in
+  let add_alive x y =
+    if x >= 0 && y >= 0 && x < Array.length world.(0) && y < Array.length world
+    then if get_cell world x y = Alive then count := !count + 1
+  in
+  add_alive (x - 1) (y - 1);
+  add_alive x (y - 1);
+  add_alive (x + 1) (y - 1);
+  add_alive (x - 1) y;
+  add_alive (x + 1) y;
+  add_alive (x - 1) (y + 1);
+  add_alive x (y + 1);
+  add_alive (x + 1) (y + 1);
+  !count
 
-let list_upto n = list_upto_helper 0 n
+let update_world world =
+  let new_world = init_world (Array.length world.(0)) (Array.length world) in
+  for y = 0 to Array.length world - 1 do
+    for x = 0 to Array.length world.(0) - 1 do
+      let alive_neighbors = number_living_neighbors world x y in
+      match get_cell world x y with
+      | Dead -> if alive_neighbors = 3 then set_cell new_world x y Alive
+      | Alive ->
+          if alive_neighbors < 2 || alive_neighbors > 3 then
+            set_cell new_world x y Dead
+          else set_cell new_world x y Alive
+    done
+  done;
+  new_world
 
-let rec init_cell_helper matrix row_counter acc =
-  match matrix with
-  | h :: t -> (
-      match h with
-      | h :: t -> Cell.init_cell false (h, row_counter) [] :: acc
-      | [] -> init_cell_helper t (row_counter + 1))
-  | [] -> acc
+let print_world world =
+  Array.iter
+    (fun row ->
+      Array.iter
+        (fun cell ->
+          match cell with
+          | Dead -> print_string "."
+          | Alive -> print_string "H")
+        row;
+      print_newline ())
+    world
 
-(* essentially just want to call Cell.init_cell, passing the element's row and
-   column as the indices*)
-let init_cells col row = init_cell_helper (init_matrix col row []) 0 []
+let rec run world n =
+  if n = 0 then ()
+  else begin
+    print_world world;
+    print_newline ();
+    run (update_world world) (n - 1)
+  end
 
-let init_world c r =
-  { cols = c; rows = r; cells = init_cells (list_upto c) (list_upto r) }
+(* let w = init_world 10 10;;
 
-let world_update = raise NotImplemented
+   set_cell w 1 2 Alive; set_cell w 2 3 Alive; set_cell w 3 1 Alive; set_cell w
+   3 2 Alive; set_cell w 3 3 Alive; run w 10 *)

@@ -1,19 +1,23 @@
 type t
 (* abstract type . . . *)
 
-val init_world : int -> int -> (int * int) list -> t
-(* Initializes a world that is of x by y dimensions, where the int by int list
-   are the coordinates of the originally alive cells *)
+val init_world : int -> int -> t
+(* [init_world width height] Initializes a world with all dead cells that is
+   [width] wide and [height] tall *)
+
+val init_world_with_alive : int -> int -> (int * int) list -> t
+(* [init_world_with_cells width height living] Initializes a world that is of
+   [width] wide and [height] tall and sets all cells at coordinates specified by
+   [living] to be alive. All other cells are dead *)
 
 val get_dims : t -> int * int
-(* returns # of rows by # of cols*)
+(* [get_dims world] returns the dimensions of [world] *)
 
-val get_which_alive : t -> (int * int) list
-(* returns the coordinates of which points are alive within the grid, with (0,0)
-   being the top left corner *)
+val get_alive : t -> (int * int) list
+(* [get_alive world] returns the list of coordinates of which points are alive
+   within [world], with (0,0) being the top left corner *)
 
-val world_update : t -> t
-(* Update the world by calling upon each cell to update itself: important to
-   note that the order in which we do so matters*)
+val update_world : t -> t
+(* [update_world world] updates [world] according to its current state *)
 
 exception NotImplemented
