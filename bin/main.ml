@@ -5,7 +5,7 @@ open Life.World
 let rec animate state =
   clear_graph ();
   draw_frame state;
-  Unix.sleepf 0.25;
+  Unix.sleepf 0.5;
   animate (update_world state)
 
 let start () =
