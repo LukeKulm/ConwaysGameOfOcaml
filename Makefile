@@ -25,7 +25,7 @@ finalcheck:
 
 zip:
 	rm -f life.zip
-	zip -r life.zip . -x@exclude.lst
+	zip -r life.zip .
 
 clean:
 	dune clean
