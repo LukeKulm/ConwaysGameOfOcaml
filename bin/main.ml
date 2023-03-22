@@ -2,10 +2,12 @@ open Graphics
 open Life.Display
 open Life.World
 
+let frame_rate = 0.1
+
 let rec animate state =
   clear_graph ();
   draw_frame state;
-  Unix.sleepf 0.3;
+  Unix.sleepf frame_rate;
   animate (update_world state)
 
 let rec start () =
