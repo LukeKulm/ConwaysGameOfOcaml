@@ -1,0 +1,44 @@
+---
+# Members of your group.
+group:
+  - name: Dylan Van Bramer
+    netid: dcv26
+  - name: Henry Rogers
+    netid: hwr34
+  - name: Luke Kulm
+  netid: lbk73
+# Your PM.
+pm:
+  name: Noah Rebei
+  netid: nr285
+# Set to false if you don't want your gallery entry to be public.
+publish: true
+# Pithy title
+title: "John Camlways Caml of Life"
+# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
+git-repo: "https://github.coecis.cornell.edu/lbk73/CS3110FinalProject"
+# If you have no demo screencast, replace the url string with an empty string ""
+demo-video-url: ""
+# Write a short, attention-grabbing description of your project.
+desc: >
+  Our project is an interactive calculator. It supports standard mathematical
+  operations like addition, multiplication, negation, and division on both
+  integers and floating-point numbers. The interface is completely
+  programmable--new functions can easily be defined and assigned to new "keys"
+  in the visual interface.
+
+  Standard visual I/O is supported, but the calculator can also emit sound. By
+  pressing down a special key, it can play a little melody.
+
+  Our project is an implementation of John Conway's 'Game of Life' cellular
+  automata. Our implementation follows the standard rules where a 'Dead' cell
+  comes alive in the next generation if it has exactly 3 living neighbors. A
+  'Live' cell stays alive in the next generation if it has 2 or 3 living
+  neighbors, and otherwise dies.
+
+  Our implementation is currently pretty bare-bones, but it does work. Even with
+  a simple implementation of Conway's 'Game of Life' the options for variation
+  are nearly limitless, and there is a lot that you can play around with. Soon,
+  we will make our GUI more interactive. We will also add other customizable
+  features such as adjustability for colors and the speed at which the game
+  runs.
