@@ -21,15 +21,6 @@ git-repo: "https://github.coecis.cornell.edu/lbk73/CS3110FinalProject"
 demo-video-url: ""
 # Write a short, attention-grabbing description of your project.
 desc: >
-  Our project is an interactive calculator. It supports standard mathematical
-  operations like addition, multiplication, negation, and division on both
-  integers and floating-point numbers. The interface is completely
-  programmable--new functions can easily be defined and assigned to new "keys"
-  in the visual interface.
-
-  Standard visual I/O is supported, but the calculator can also emit sound. By
-  pressing down a special key, it can play a little melody.
-
   Our project is an implementation of John Conway's 'Game of Life' cellular
   automata. Our implementation follows the standard rules where a 'Dead' cell
   comes alive in the next generation if it has exactly 3 living neighbors. A
