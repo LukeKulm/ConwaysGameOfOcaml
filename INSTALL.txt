@@ -1,9 +1,10 @@
 Installation Instructions:
 
+- Unzip life.zip from the command line. (Which probably had to be done to read
+this file)
 - Run [opam install graphics] to install the ocaml graphics module.
 - Follow the installation prompts as instructed. Note that Mac (and maybe other)
 users will very likely have to restart their machines to get XQuartz to work.
-- Unzip life.zip from the command line.
 - Run [make play] from the directory 'CS3110FinalProject' to spawn the GUI and
 watch a cool demonstration of Conway's Game of Life.
 - There are a few different seeds in the code to run, but currently they must be
