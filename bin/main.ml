@@ -10,7 +10,7 @@ let rec animate state =
   Unix.sleepf frame_rate;
   animate (update_world state)
 
-let rec start () =
+and start () =
   open_graph
     (" "
     ^ string_of_int (fst (window_size initial))

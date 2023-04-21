@@ -31,9 +31,8 @@ let number_living_neighbors world x y =
     let x' = (x + Array.length world.(0)) mod Array.length world.(0) in
     let y' = (y + Array.length world) mod Array.length world in
     if get_cell world x' y' = Alive then count := !count + 1
-    (* if x >= 0 && y >= 0 && x < Array.length world.(0) && y < Array.length
-       world then if get_cell world x y = Alive then count := !count + 1 *)
   in
+
   add_alive (x - 1) (y - 1);
   add_alive x (y - 1);
   add_alive (x + 1) (y - 1);

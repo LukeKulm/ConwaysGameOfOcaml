@@ -1,7 +1,7 @@
 open Graphics
 open World
 
-let cell_size = 10
+let cell_size = 20
 
 let initial =
   init_world_with_alive 30 50 [ (0, 42); (1, 41); (2, 41); (2, 42); (2, 43) ]
@@ -94,9 +94,17 @@ let rec draw_frame_helper g =
       draw_cell (fst h) (snd h);
       draw_frame_helper t
 
+(* let draw_grid state = set_color (rgb 200 200 200); let num_squares_x =
+   cell_size * fst (get_dims state) in for i = 1 to num_squares_x - 1 do let x =
+   i * cell_size in moveto x 0; lineto x (snd (get_dims state)) done; let
+   num_squares_y = cell_size * snd (get_dims state) in for i = 1 to
+   num_squares_y - 1 do let y = i * cell_size in moveto 0 y; lineto y (fst
+   (get_dims state)) done *)
+
 let draw_frame state =
   match get_alive state with
   | [] -> ()
   | h :: t ->
       draw_cell (fst h) (snd h);
       draw_frame_helper t
+(* draw_grid state *)
