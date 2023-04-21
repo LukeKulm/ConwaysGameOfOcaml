@@ -92,7 +92,8 @@ and main () =
 let rec start () =
   open_graph (" " ^ string_of_int win_width ^ "X" ^ string_of_int win_height);
   set_window_title "The Game of Life";
-  draw_string "Press a Key When You're Happy";
+  draw_string
+    "Press a Key When You're Happy. Then SPACE to start, and X to reset";
   if (wait_next_event [ Key_pressed ]).keypressed then main () else start ()
 (* Wait for a short time before updating the cells again *)
 
