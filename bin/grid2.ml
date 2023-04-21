@@ -2,8 +2,8 @@ open Graphics
 open Life.Display
 open Life.World
 
-let win_width = 400
-let win_height = 400
+let win_width = 1400
+let win_height = 800
 let square_size = 20
 let num_squares_x = win_width / square_size
 let num_squares_y = win_height / square_size
@@ -57,7 +57,8 @@ let get_alive_cells grid =
   !alive_cells
 
 let to_world grid =
-  init_world_with_alive win_width win_height (get_alive_cells grid)
+  init_world_with_alive (win_width / square_size) (win_height / square_size)
+    (get_alive_cells grid)
 
 let rec animate state =
   clear_graph ();

@@ -4,7 +4,7 @@ open World
 let cell_size = 20
 
 let initial =
-  init_world_with_alive 30 50 [ (0, 42); (1, 41); (2, 41); (2, 42); (2, 43) ]
+  init_world_with_alive 30 30 [ (0, 22); (1, 21); (2, 21); (2, 22); (2, 23) ]
 
 let initial2 =
   init_world_with_alive 50 50
