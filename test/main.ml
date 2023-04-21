@@ -23,7 +23,7 @@ let cell_tests =
       (Cell.init_cell true (0, 0) [])
       true;
     get_alive_test
-      "Cell initalized with false boolean should return false (meaning dead"
+      "Cell initalized with false boolean should return false (meaning dead)"
       (Cell.init_cell false (0, 0) [])
       false;
   ]

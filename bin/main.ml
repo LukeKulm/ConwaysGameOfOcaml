@@ -2,7 +2,7 @@ open Graphics
 open Life.Display
 open Life.World
 
-let frame_rate = 0.1
+let frame_rate = 0.01
 
 let rec animate state =
   clear_graph ();

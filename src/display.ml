@@ -3,11 +3,11 @@ open World
 
 let cell_size = 10
 
-let initial2 =
-  init_world_with_alive 50 50 [ (0, 42); (1, 41); (2, 41); (2, 42); (2, 43) ]
+let initial =
+  init_world_with_alive 30 50 [ (0, 42); (1, 41); (2, 41); (2, 42); (2, 43) ]
 
-let initial3 =
-  init_world_with_alive 100 50
+let initial2 =
+  init_world_with_alive 50 50
     [
       (1, 25);
       (1, 26);
@@ -40,7 +40,7 @@ let initial3 =
     ]
 
 (* This one is very cool. *)
-let initial =
+let initial3 =
   init_world_with_alive 50 50
     [
       (0, 48);
