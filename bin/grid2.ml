@@ -3,7 +3,7 @@ open Life.Display
 open Life.World
 
 let win_width = 1400
-let win_height = 800
+let win_height = 700
 let square_size = 20
 let num_squares_x = win_width / square_size
 let num_squares_y = win_height / square_size
@@ -61,12 +61,15 @@ let to_world grid =
     (get_alive_cells grid)
 
 let rec animate state =
-  clear_graph ();
-  draw_frame state;
-  Unix.sleepf frame_rate;
-  animate (update_world state)
+  if key_pressed () && read_key () = 'x' then main ()
+  else (
+    clear_graph ();
+    draw_frame state;
+    draw_string "PRESS";
+    Unix.sleepf frame_rate;
+    animate (update_world state))
 
-let main () =
+and main () =
   open_graph "";
   resize_window win_width win_height;
   draw_grid ();
