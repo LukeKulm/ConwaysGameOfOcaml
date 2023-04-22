@@ -108,3 +108,23 @@ let draw_frame state =
       draw_cell (fst h) (snd h);
       draw_frame_helper t
 (* draw_grid state *)
+
+(*code to turn HSL values to RGB because Graphics takes RGB but HSL is what we
+  want to animate the dead cells nicely, probably will store a lightness value
+  in with a cell to determine how long it has been dead*)
+let howlongdead_to_hsl hld = (1, 70, 75 + (5 * hld))
+
+let hsl_to_RGB_helper x =
+  match x with
+  | a, b, c, m -> ((a + m) * 255, (b + m) * 255, (c + m) * 255)
+
+let hsl_to_RGB h s l =
+  let c = (1 - abs ((2 * l) - 1)) * s in
+  let x = 1 - abs ((h / 60 mod 2) - 1) in
+  let m = l - (c / 2) in
+  if h < 60 then (c, x, 0)
+  else if h < 120 then hsl_to_RGB_helper (x, c, 0, m)
+  else if h < 180 then hsl_to_RGB_helper (0, c, x, m)
+  else if h < 240 then hsl_to_RGB_helper (0, x, c, m)
+  else if h < 300 then hsl_to_RGB_helper (x, 0, c, m)
+  else hsl_to_RGB_helper (c, 0, x, m)
