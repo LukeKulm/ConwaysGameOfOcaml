@@ -1,6 +1,7 @@
 open OUnit2
 open Life
 open Cell
+open Util
 
 let get_alive_test (name : string) (input : Cell.t) (expected_output : bool) :
     test =
@@ -14,8 +15,17 @@ let update_cell_test_bool (name : string) (input : Cell.t)
     (input |> Cell.cell_update |> Cell.get_alive)
     ~printer:string_of_bool
 
-(* should we also test that the neighbors and position didn't change? if so: let
-   update_cell_test_neighbors = . . . . . *)
+let printer_help_tuple (a, b) =
+  "(" ^ string_of_int a ^ ", " ^ string_of_int b ^ ")"
+
+let print_to_string d : (int * int) list =
+  print_endline (Util.string_of_list printer_help_tuple d)
+
+let updated_get_alive_test (name : string) (input : World.t)
+    (expected_output : (int * int) list) : test =
+  name >:: fun _ ->
+  assert_equal expected_output (World.get_alive input) ~printer:print_to_string
+
 let cell_tests =
   [
     get_alive_test
