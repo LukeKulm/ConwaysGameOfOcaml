@@ -1,3 +1,6 @@
+(* The cell compilation unit is not being used in our current implementation but
+   we may return to it as we add features. *)
+
 type t
 (** The abstract type of one cell in the grid of the game of life*)
 

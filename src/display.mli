@@ -1,17 +1,20 @@
 open World
 
-(*size of each cell*)
 val cell_size : int
-val initial : t
+(* [cell_size] is the size of each cell *)
 
-(*size of the window*)
-val window_size : t -> int * int
+val initial : World.t
+(* [initial] is a starting state for the world. It currently contains a single
+   glider. *)
 
-(*gives the number of cells in the window up and down*)
-val rows : t -> int
+val window_size : World.t -> int * int
+(* [window_size state] returns the size of window in [state] *)
 
-(*the number of cells in the window left to right*)
-val collums : t -> int
+val rows : World.t -> int
+(* [rows state] gives the number of rows in the window [state]. *)
 
-(*draw_frame [state] draws cells using ([state]) in the graph*)
-val draw_frame : t -> unit
+val columns : World.t -> int
+(* [columns state] gives the number of columns in window [state]. *)
+
+val draw_frame : World.t -> unit
+(* [draw_frame state] draws cells using the current [state] of the world. *)

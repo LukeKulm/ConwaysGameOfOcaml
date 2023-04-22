@@ -24,9 +24,9 @@ finalcheck:
 	@bash check.sh final
 
 zip:
-	rm -f enigma.zip
-	zip -r enigma.zip . -x@exclude.lst
+	rm -f life.zip
+	zip -r life.zip .
 
 clean:
 	dune clean
-	rm -f enigma.zip
+	rm -f life.zip
