@@ -4,6 +4,18 @@ open Cell
 open World
 open Util
 
+(** [cmp_set_like_lists lst1 lst2] compares two lists to see whether they are
+    equivalent set-like lists. That means checking two things. First, they must
+    both be "set-like", meaning that they do not contain any duplicates. Second,
+    they must contain the same elements, though not necessarily in the same
+    order. *)
+let cmp_set_like_lists lst1 lst2 =
+  let uniq1 = List.sort_uniq compare lst1 in
+  let uniq2 = List.sort_uniq compare lst2 in
+  List.length lst1 = List.length uniq1
+  && List.length lst2 = List.length uniq2
+  && uniq1 = uniq2
+
 let get_alive_test (name : string) (input : Cell.t) (expected_output : bool) :
     test =
   name >:: fun _ ->
@@ -48,7 +60,14 @@ let dims_invalid_test (name : string) (input_1 : int) (input_2 : int) : test =
 let world_get_alive_test (name : string) (input : World.t)
     (expected_output : (int * int) list) : test =
   name >:: fun _ ->
-  assert_equal expected_output (World.get_alive input) ~printer:print_to_string
+  assert_equal ~cmp:cmp_set_like_lists expected_output (World.get_alive input)
+    ~printer:print_to_string
+
+let init_alive_invalid_test (name : string) (width : int) (height : int)
+    (input_3 : (int * int) list) : test =
+  name >:: fun _ ->
+  assert_raises World.InvalidPts (fun () ->
+      World.init_world_with_alive width height input_3)
 
 let world_tests =
   [
@@ -72,6 +91,54 @@ let world_tests =
       "trying to initialize a world with width 0 and height 0 raises \
        InvalidDims error"
       0 0;
+    world_get_alive_test
+      "get_alive returns an empty list for a world just initialized using \
+       init_world 30 30"
+      (World.init_world 30 30) [];
+    world_get_alive_test
+      "get_alive returns the same list entered when calling init_world alive. \
+       Here, shown with one point in middle"
+      (World.init_world_with_alive 30 30 [ (14, 14) ])
+      [ (14, 14) ];
+    world_get_alive_test
+      "get_alive returns the same list entered when calling init_world alive. \
+       Here, shown with two points: both in column 14, but different rows. "
+      (World.init_world_with_alive 30 30 [ (14, 18); (14, 20) ])
+      [ (14, 18); (14, 20) ];
+    world_get_alive_test
+      "get_alive returns the same list entered when calling init_world alive. \
+       Here, shown with two points: both in column 14, but different rows. "
+      (World.init_world_with_alive 30 30 [ (14, 18); (14, 20) ])
+      [ (14, 18); (14, 20) ];
+    world_get_alive_test
+      "get_alive returns the same list entered when calling init_world alive. \
+       Here, shown with two points: both in row 14, but different columns. "
+      (World.init_world_with_alive 30 30 [ (10, 14); (2, 14) ])
+      [ (10, 14); (2, 14) ];
+    world_get_alive_test
+      "get_alive returns the empty list  when calling init_world alive with \
+       living as empty list"
+      (World.init_world_with_alive 30 30 [])
+      [];
+    init_alive_invalid_test
+      "one point in living, out of bounds both height and width. " 4 4
+      [ (5, 5) ];
+    init_alive_invalid_test "one point in living, out of bounds only in width. "
+      4 4
+      [ (5, 3) ];
+    init_alive_invalid_test
+      "one point in living, out of bounds only in height (also testing that \
+       the height value itself is out of bounds, should stop at n-1). "
+      4 4
+      [ (3, 4) ];
+    init_alive_invalid_test "two points in living, both are out of bounds. " 4 4
+      [ (5, 5); (4, 4) ];
+    init_alive_invalid_test
+      "one point in living, first is okay, second is out of bounds. " 4 4
+      [ (1, 2); (5, 5) ];
+    init_alive_invalid_test
+      "one point in living, second is okay, first is out of bounds. " 4 4
+      [ (10, 20); (3, 1) ];
   ]
 
 let suite =

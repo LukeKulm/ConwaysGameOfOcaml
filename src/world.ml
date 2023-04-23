@@ -1,5 +1,6 @@
 exception NotImplemented
 exception InvalidDims of (int * int)
+exception InvalidPts
 
 type cell =
   | Dead
@@ -12,7 +13,12 @@ let init_world width height =
   else raise (InvalidDims (width, height))
 
 let get_dims world = (Array.length world.(0), Array.length world)
-let set_cell world x y cell = world.(y).(x) <- cell
+
+let set_cell world x y cell =
+  if y > 0 && x > 0 then
+    match get_dims world with
+    | a, b -> if x < a && y < b then world.(y).(x) <- cell else raise InvalidPts
+
 let get_cell world x y = world.(y).(x)
 
 let init_world_with_alive width height alive =
