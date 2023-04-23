@@ -1,6 +1,10 @@
 type t
 (* [t] is the abstract type for the world. *)
 
+exception InvalidDims of (int * int)
+(** Raised when the dimensions of a world are invalid, so the world cannot be
+    initialized. It carries the attempted dimensions. *)
+
 val init_world : int -> int -> t
 (* [init_world width height] Initializes a world with all dead cells that is
    [width] wide and [height] tall. *)

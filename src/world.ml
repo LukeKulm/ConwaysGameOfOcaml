@@ -1,4 +1,5 @@
 exception NotImplemented
+exception InvalidDims of (int * int)
 
 type cell =
   | Dead
@@ -6,7 +7,10 @@ type cell =
 
 type t = cell array array
 
-let init_world width height = Array.make_matrix height width Dead
+let init_world width height =
+  if width > 0 && height > 0 then Array.make_matrix height width Dead
+  else raise (InvalidDims (width, height))
+
 let get_dims world = (Array.length world.(0), Array.length world)
 let set_cell world x y cell = world.(y).(x) <- cell
 let get_cell world x y = world.(y).(x)
