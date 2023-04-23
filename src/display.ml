@@ -105,6 +105,7 @@ let draw_frame state =
   match get_alive state with
   | [] -> ()
   | h :: t ->
+      set_color (rgb 0 0 0);
       draw_cell (fst h) (snd h);
       draw_frame_helper t
 (* draw_grid state *)
@@ -112,7 +113,7 @@ let draw_frame state =
 (*code to turn HSL values to RGB because Graphics takes RGB but HSL is what we
   want to animate the dead cells nicely, probably will store a lightness value
   in with a cell to determine how long it has been dead*)
-let howlongdead_to_hsl hld = (1, 70, 75 + (5 * hld))
+let howlongdead_to_hsl hld = (0, 0, 75 + hld)
 
 let hsl_to_RGB_helper x =
   match x with
@@ -128,3 +129,64 @@ let hsl_to_RGB h s l =
   else if h < 240 then hsl_to_RGB_helper (0, x, c, m)
   else if h < 300 then hsl_to_RGB_helper (x, 0, c, m)
   else hsl_to_RGB_helper (c, 0, x, m)
+
+let get_first a =
+  match a with
+  | x, y, z -> x
+
+let get_sec a =
+  match a with
+  | x, y, z -> y
+
+let get_third a =
+  match a with
+  | x, y, z -> z
+
+(*this will draw the fading cells that have become dead after being alive*)
+let rec draw_frame_dead_helper a =
+  match a with
+  | [] -> ()
+  | (x, y, z) :: t ->
+      set_color
+        (rgb
+           (get_first
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_sec
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_third
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z)))));
+      draw_cell x y;
+      draw_frame_dead_helper t
+
+let draw_frame_dead state =
+  match get_dead state with
+  | [] -> ()
+  | (x, y, z) :: t ->
+      set_color
+        (rgb
+           (get_first
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_sec
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_third
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z)))));
+      draw_cell x y;
+      draw_frame_dead_helper t

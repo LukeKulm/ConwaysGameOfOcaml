@@ -17,6 +17,11 @@ val get_alive : t -> (int * int) list
 (* [get_alive world] returns the list of coordinates of which points are alive
    within [world], with (0,0) being the top left corner. *)
 
+val get_dead : t -> (int * int * int) list
+(* [get_dead world] returns the list of coordinates of which points are dead
+   after having been alive beforeand and the amount of frames for which the cell
+   has been dead within [world], with (0,0) being the top left corner. *)
+
 val update_world : t -> t
 (* [update_world world] updates [world] according to its current state. *)
 
