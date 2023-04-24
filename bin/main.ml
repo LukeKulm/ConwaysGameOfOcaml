@@ -64,6 +64,7 @@ let rec animate state =
   if key_pressed () && read_key () = 'x' then main ()
   else (
     clear_graph ();
+    set_color (rgb 0 0 0);
     draw_frame state;
     draw_frame_dead state;
     draw_string "PRESS";
