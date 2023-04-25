@@ -3,6 +3,7 @@ open Life
 open Cell
 open World
 open Util
+open Display
 
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether they are
     equivalent set-like lists. That means checking two things. First, they must
@@ -141,7 +142,53 @@ let world_tests =
       [ (10, 20); (3, 1) ];
   ]
 
+let window_size_test (name : string) (input : World.t)
+    (expected_output : int * int) : test =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (Display.window_size input)
+    ~printer:printer_help_tuple
+
+let rows_test (name : string) (input : World.t) (expected_output : int) : test =
+  name >:: fun _ ->
+  assert_equal expected_output (Display.rows input) ~printer:string_of_int
+
+let columns_test (name : string) (input : World.t) (expected_output : int) :
+    test =
+  name >:: fun _ ->
+  assert_equal expected_output (Display.columns input) ~printer:string_of_int
+
+let display_tests =
+  [
+    rows_test "rows called on a world with dimensions 4*8 should return 4"
+      (World.init_world 4 8) 4;
+    columns_test "columns called on a world with dimensions 4*8 should return 8"
+      (World.init_world 4 8) 8;
+  ]
+
+  let get_dead_test (name:string) (input: World.t) (expected_output : (int * int*int) list) : test )
+
+let grid_stable_square =
+  World.init_world_with_alive 4 4 [ (1, 1); (1, 2); (2, 1); (2, 2) ]
+
+let grid_stable_square_upd1 = []
+
+let update_test (name : string) (input : World.t)
+    (expected_output : (int * int) list) : test =
+  name >:: fun _ ->
+  assert_equal expected_output
+    (World.update_world input |> World.get_alive)
+    ~printer:print_to_string
+
+let update_tests =
+  [
+    update_test "update called on stable 2*2 square returns the same config"
+      grid_stable_square
+      (World.get_alive grid_stable_square);
+  ]
+
 let suite =
-  "test suite for Final Project" >::: List.flatten [ cell_tests; world_tests ]
+  "test suite for Final Project"
+  >::: List.flatten [ cell_tests; world_tests; display_tests; update_tests ]
 
 let _ = run_test_tt_main suite
