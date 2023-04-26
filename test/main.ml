@@ -166,17 +166,21 @@ let display_tests =
       (World.init_world 4 8) 8;
   ]
 
-  let get_dead_test (name:string) (input: World.t) (expected_output : (int * int*int) list) : test )
-
 let grid_stable_square =
   World.init_world_with_alive 4 4 [ (1, 1); (1, 2); (2, 1); (2, 2) ]
 
-let grid_stable_square_upd1 = []
+let grid_pre_stable_square =
+  World.init_world_with_alive 4 4 [ (1, 1); (1, 2); (2, 2) ]
+
+let grid_three_tall = World.init_world_with_alive 5 5 [ (2, 1); (2, 2); (2, 3) ]
+let grid_three_wide = World.init_world_with_alive 5 5 [ (1, 2); (2, 2); (3, 2) ]
+let grid_diag = World.init_world_with_alive 5 5 [ (1, 1); (2, 2); (3, 3) ]
+let grid_triomino = World.init_world_with_alive 5 5 [ (1, 1); (1, 2); (2, 3) ]
 
 let update_test (name : string) (input : World.t)
     (expected_output : (int * int) list) : test =
   name >:: fun _ ->
-  assert_equal expected_output
+  assert_equal ~cmp:cmp_set_like_lists expected_output
     (World.update_world input |> World.get_alive)
     ~printer:print_to_string
 
@@ -185,6 +189,23 @@ let update_tests =
     update_test "update called on stable 2*2 square returns the same config"
       grid_stable_square
       (World.get_alive grid_stable_square);
+    update_test
+      "update called on 3/4 full square returns stable square after one time"
+      grid_pre_stable_square
+      (World.get_alive grid_stable_square);
+    update_test "update called on three vertical returns three horizontal"
+      grid_three_tall
+      (World.get_alive grid_three_wide);
+    update_test "update called on three horizontal returns three vertical"
+      grid_three_wide
+      (World.get_alive grid_three_tall);
+    update_test "update called on diag returns just middle point" grid_diag
+      [ (2, 2) ];
+    update_test
+      "update called on final triomino pattern returns two alive points in \
+       horizontal pattern along middle axis"
+      grid_triomino
+      [ (1, 2); (2, 2) ];
   ]
 
 let suite =
