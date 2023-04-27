@@ -204,9 +204,7 @@ let stupid_color z =
   | _ -> rgb 128 128 128
 
 let stupid_color2 z = if z < 126 then rgb ((126 - z) * 2) 0 0 else rgb 0 0 0
-
-let stupid_color3 z =
-  if z < 126 then rgb (z * 2) 255 (z * 2) else rgb 255 255 255
+let stupid_color3 z = if z < 126 then rgb 255 (z * 2) 255 else rgb 255 255 255
 
 let rec draw_frame_dead_helper_alt a =
   match a with
