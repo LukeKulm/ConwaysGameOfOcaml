@@ -18,8 +18,8 @@ let update_cell_test_bool (name : string) (input : Cell.t)
 let printer_help_tuple (a, b) =
   "(" ^ string_of_int a ^ ", " ^ string_of_int b ^ ")"
 
-let print_to_string d : (int * int) list =
-  print_endline (Util.string_of_list printer_help_tuple d)
+let print_to_string (d : (int * int) list) =
+  Util.string_of_list printer_help_tuple d
 
 let updated_get_alive_test (name : string) (input : World.t)
     (expected_output : (int * int) list) : test =
