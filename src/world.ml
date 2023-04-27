@@ -3,13 +3,13 @@ exception InvalidDims of (int * int)
 exception InvalidPts
 
 type cell =
-  | Dead
+  | Dead of int
   | Alive
 
 type t = cell array array
 
 let init_world width height =
-  if width > 0 && height > 0 then Array.make_matrix height width Dead
+  if width > 0 && height > 0 then Array.make_matrix height width (Dead 0)
   else raise (InvalidDims (width, height))
 
 let get_dims world = (Array.length world.(0), Array.length world)
@@ -35,6 +35,20 @@ let get_alive world =
   done;
   !alive
 
+let get_dead_helper world x y d =
+  match get_cell world x y with
+  | Dead z -> if z >= 1 then d := (x, y, z) :: !d else ()
+  | Alive -> ()
+
+let get_dead world =
+  let dead = ref [] in
+  for y = 0 to Array.length world - 1 do
+    for x = 0 to Array.length world.(0) - 1 do
+      get_dead_helper world x y dead
+    done
+  done;
+  !dead
+
 let number_living_neighbors world x y =
   let count = ref 0 in
   let add_alive x y =
@@ -59,10 +73,13 @@ let update_world world =
     for x = 0 to Array.length world.(0) - 1 do
       let alive_neighbors = number_living_neighbors world x y in
       match get_cell world x y with
-      | Dead -> if alive_neighbors = 3 then set_cell new_world x y Alive
+      | Dead z ->
+          if alive_neighbors = 3 then set_cell new_world x y Alive
+          else if z <= 0 then set_cell new_world x y (Dead 0)
+          else set_cell new_world x y (Dead (z + 1))
       | Alive ->
           if alive_neighbors < 2 || alive_neighbors > 3 then
-            set_cell new_world x y Dead
+            set_cell new_world x y (Dead 1)
           else set_cell new_world x y Alive
     done
   done;
@@ -74,7 +91,7 @@ let print_world world =
       Array.iter
         (fun cell ->
           match cell with
-          | Dead -> print_string "."
+          | Dead x -> print_string "."
           | Alive -> print_string "H")
         row;
       print_newline ())

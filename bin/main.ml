@@ -8,7 +8,7 @@ let square_size = 20
 let num_squares_x = win_width / square_size
 let num_squares_y = win_height / square_size
 let grid = Array.make_matrix num_squares_y num_squares_x white
-let frame_rate = 0.01
+let frame_rate = 0.03
 
 let draw_square x y color =
   set_color color;
@@ -64,7 +64,9 @@ let rec animate state =
   if key_pressed () && read_key () = 'x' then main ()
   else (
     clear_graph ();
+    set_color (rgb 255 0 0);
     draw_frame state;
+    draw_frame_dead_alt state;
     draw_string "PRESS";
     Unix.sleepf frame_rate;
     animate (update_world state))

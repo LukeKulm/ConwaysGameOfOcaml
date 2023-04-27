@@ -112,19 +112,108 @@ let draw_frame state =
 (*code to turn HSL values to RGB because Graphics takes RGB but HSL is what we
   want to animate the dead cells nicely, probably will store a lightness value
   in with a cell to determine how long it has been dead*)
-let howlongdead_to_hsl hld = (1, 70, 75 + (5 * hld))
+let howlongdead_to_hsl hld = (0.0, 0.0, 0.70 +. (float_of_int hld /. 100.0))
 
 let hsl_to_RGB_helper x =
   match x with
-  | a, b, c, m -> ((a + m) * 255, (b + m) * 255, (c + m) * 255)
+  | a, b, c, m ->
+      ( int_of_float ((a +. m) *. 255.0),
+        int_of_float ((b +. m) *. 255.0),
+        int_of_float ((c +. m) *. 255.0) )
 
 let hsl_to_RGB h s l =
-  let c = (1 - abs ((2 * l) - 1)) * s in
-  let x = 1 - abs ((h / 60 mod 2) - 1) in
-  let m = l - (c / 2) in
-  if h < 60 then (c, x, 0)
-  else if h < 120 then hsl_to_RGB_helper (x, c, 0, m)
-  else if h < 180 then hsl_to_RGB_helper (0, c, x, m)
-  else if h < 240 then hsl_to_RGB_helper (0, x, c, m)
-  else if h < 300 then hsl_to_RGB_helper (x, 0, c, m)
-  else hsl_to_RGB_helper (c, 0, x, m)
+  let c = (1.0 -. abs_float ((2.0 *. l) -. 1.0)) *. s in
+  let x = 1.0 -. abs_float (mod_float (h /. 60.0) 2.0 -. 1.0) in
+  let m = l -. (c /. 2.0) in
+  if h < 60.0 then (int_of_float c, int_of_float x, 0)
+  else if h < 120.0 then hsl_to_RGB_helper (x, c, 0.0, m)
+  else if h < 180.0 then hsl_to_RGB_helper (0.0, c, x, m)
+  else if h < 240.0 then hsl_to_RGB_helper (0.0, x, c, m)
+  else if h < 300.0 then hsl_to_RGB_helper (x, 0.0, c, m)
+  else hsl_to_RGB_helper (c, 0.0, x, m)
+
+let get_first a =
+  match a with
+  | x, y, z -> x
+
+let get_sec a =
+  match a with
+  | x, y, z -> y
+
+let get_third a =
+  match a with
+  | x, y, z -> z
+
+(*this will draw the fading cells that have become dead after being alive*)
+let rec draw_frame_dead_helper a =
+  match a with
+  | [] -> ()
+  | (x, y, z) :: t ->
+      set_color
+        (rgb
+           (get_first
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_sec
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_third
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z)))));
+      draw_cell x y;
+      draw_frame_dead_helper t
+
+let draw_frame_dead state =
+  match get_dead state with
+  | [] -> ()
+  | (x, y, z) :: t ->
+      set_color
+        (rgb
+           (get_first
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_sec
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z))))
+           (get_third
+              (hsl_to_RGB
+                 (get_first (howlongdead_to_hsl z))
+                 (get_sec (howlongdead_to_hsl z))
+                 (get_third (howlongdead_to_hsl z)))));
+      draw_cell x y;
+      draw_frame_dead_helper t
+
+let stupid_color z =
+  match z mod 6 with
+  | 0 -> rgb 0 0 255
+  | 1 -> rgb 0 255 0
+  | 2 -> rgb 255 0 0
+  | 3 -> rgb 0 200 200
+  | 4 -> rgb 200 200 0
+  | 5 -> rgb 200 0 200
+  | _ -> rgb 128 128 128
+
+let stupid_color2 z = if z < 126 then rgb ((126 - z) * 2) 0 0 else rgb 0 0 0
+
+let stupid_color3 z =
+  if z < 126 then rgb (z * 2) 255 (z * 2) else rgb 255 255 255
+
+let rec draw_frame_dead_helper_alt a =
+  match a with
+  | [] -> ()
+  | (x, y, z) :: t ->
+      set_color (stupid_color3 z);
+      draw_cell x y;
+      draw_frame_dead_helper_alt t
+
+let draw_frame_dead_alt state = draw_frame_dead_helper_alt (get_dead state)

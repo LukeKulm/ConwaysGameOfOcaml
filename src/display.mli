@@ -18,3 +18,9 @@ val columns : World.t -> int
 
 val draw_frame : World.t -> unit
 (* [draw_frame state] draws cells using the current [state] of the world. *)
+
+val draw_frame_dead : World.t -> unit
+
+(* draw_frame_dead state] draws the dead cells using the current [state] of the
+   world.*)
+val draw_frame_dead_alt : World.t -> unit
