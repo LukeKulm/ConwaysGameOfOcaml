@@ -192,3 +192,28 @@ let draw_frame_dead state =
                  (get_third (howlongdead_to_hsl z)))));
       draw_cell x y;
       draw_frame_dead_helper t
+
+let stupid_color z =
+  match z mod 6 with
+  | 0 -> rgb 0 0 255
+  | 1 -> rgb 0 255 0
+  | 2 -> rgb 255 0 0
+  | 3 -> rgb 0 200 200
+  | 4 -> rgb 200 200 0
+  | 5 -> rgb 200 0 200
+  | _ -> rgb 128 128 128
+
+let stupid_color2 z = if z < 126 then rgb ((126 - z) * 2) 0 0 else rgb 0 0 0
+
+let stupid_color3 z =
+  if z < 126 then rgb (z * 2) 255 (z * 2) else rgb 255 255 255
+
+let rec draw_frame_dead_helper_alt a =
+  match a with
+  | [] -> ()
+  | (x, y, z) :: t ->
+      set_color (stupid_color3 z);
+      draw_cell x y;
+      draw_frame_dead_helper_alt t
+
+let draw_frame_dead_alt state = draw_frame_dead_helper_alt (get_dead state)
