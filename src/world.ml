@@ -74,7 +74,7 @@ let update_world world =
       match get_cell world x y with
       | Dead z ->
           if alive_neighbors = 3 then set_cell new_world x y Alive
-          else if z <= 0 then set_cell new_world x y (Dead 0)
+          else if z <= 0 || z > 80 then set_cell new_world x y (Dead 0)
           else set_cell new_world x y (Dead (z + 1))
       | Alive ->
           if alive_neighbors < 2 || alive_neighbors > 3 then
