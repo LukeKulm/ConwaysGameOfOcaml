@@ -9,15 +9,14 @@ type cell =
 type t = cell array array
 
 let init_world width height =
-  if width > 0 && height > 0 then Array.make_matrix height width (Dead 0)
-  else raise (InvalidDims (width, height))
+  (*if width > 0 && height > 0 then Array.make_matrix height width (Dead 0) else
+    raise (InvalidDims (width, height)) *)
+  Array.make_matrix height width (Dead 0)
 
 let get_dims world = (Array.length world.(0), Array.length world)
-
-let set_cell world x y cell =
-  if y > 0 && x > 0 then
-    match get_dims world with
-    | a, b -> if x < a && y < b then world.(y).(x) <- cell else raise InvalidPts
+let set_cell world x y cell = world.(y).(x) <- cell
+(*if y > 0 && x > 0 then match get_dims world with | a, b -> if x < a && y < b
+  then world.(y).(x) <- cell else raise InvalidPts *)
 
 let get_cell world x y = world.(y).(x)
 
