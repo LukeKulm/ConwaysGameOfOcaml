@@ -1,6 +1,5 @@
 open OUnit2
 open Life
-open Cell
 open World
 open Util
 open Display
@@ -17,34 +16,10 @@ let cmp_set_like_lists lst1 lst2 =
   && List.length lst2 = List.length uniq2
   && uniq1 = uniq2
 
-let get_alive_test (name : string) (input : Cell.t) (expected_output : bool) :
-    test =
-  name >:: fun _ ->
-  assert_equal expected_output (Cell.get_alive input) ~printer:string_of_bool
-
-let update_cell_test_bool (name : string) (input : Cell.t)
-    (expected_output : bool) : test =
-  name >:: fun _ ->
-  assert_equal expected_output
-    (input |> Cell.cell_update |> Cell.get_alive)
-    ~printer:string_of_bool
-
 let printer_help_tuple (a, b) =
   "(" ^ string_of_int a ^ ", " ^ string_of_int b ^ ")"
 
 let print_to_string d = Util.string_of_list printer_help_tuple d
-
-let cell_tests =
-  [
-    get_alive_test
-      "Cell initalized with true boolean should return true (meaning alive)"
-      (Cell.init_cell true (0, 0) [])
-      true;
-    get_alive_test
-      "Cell initalized with false boolean should return false (meaning dead)"
-      (Cell.init_cell false (0, 0) [])
-      false;
-  ]
 
 let get_dims_test (name : string) (input : World.t)
     (expected_output : int * int) : test =
@@ -210,6 +185,6 @@ let update_tests =
 
 let suite =
   "test suite for Final Project"
-  >::: List.flatten [ cell_tests; world_tests; display_tests; update_tests ]
+  >::: List.flatten [ world_tests; display_tests; update_tests ]
 
 let _ = run_test_tt_main suite
