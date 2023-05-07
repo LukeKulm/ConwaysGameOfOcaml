@@ -96,6 +96,20 @@ let print_world world =
       print_newline ())
     world
 
+let world_to_string world =
+  let s = ref "\n" in
+  Array.iter
+    (fun row ->
+      Array.iter
+        (fun cell ->
+          match cell with
+          | Dead x -> s := !s ^ "."
+          | Alive -> s := !s ^ "H")
+        row;
+      s := !s ^ "\n")
+    world;
+  !s
+
 let rec run world n =
   if n = 0 then ()
   else begin

@@ -37,4 +37,10 @@ val get_dead : t -> (int * int * int) list
 val update_world : t -> t
 (* [update_world world] updates [world] according to its current state. *)
 
+val print_world : t -> unit
+(* [print_world world] prints [world] to the terminal. *)
+
+val world_to_string : t -> string
+(* [world_to_string world] returns a string representation of [world]. *)
+
 exception NotImplemented
