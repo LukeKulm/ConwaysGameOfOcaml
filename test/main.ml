@@ -4,7 +4,33 @@ open World
 open Util
 open Display
 
-(* Test Plan and Approach: *)
+(** Test Plan and Approach: Our project is largely centered around a GUI, and as
+    a result, a large portion of our testing was done via manual observation of
+    the behavior of the GUI. We automated testing with OUnit for the game logic,
+    contained in the World module. A large portion of this testing was black box
+    and semi randomized, and the semi randomized fuzz style testing should help
+    tease out potential edge cases that we had not thought of. We also made use
+    of some glass box testing by targeting particular branches of the game logic
+    in our implementation.
+
+    As previously mentioned, most of our testing for the display module was
+    manual black box testing, where we used and interacted with our GUI and
+    checked that it behaved as we wanted. Testing for certain visual
+    characteristics, or for I/O behaviors like clicking and keyboard input, was
+    much easier for us to test by actually using the GUI than it would be by
+    devoloping complex OUnit tests. We were also able to incorporate some white
+    box manual testing into our experimentation by performing certain actions
+    that targeted specific code branches in display.ml.
+
+    We have used our GUI a lot in our testing, and as we have found bugs we have
+    fixed them. We have also extensively tested the game logic, and by checking
+    every permutation a single cell configuration, we can be certain that our
+    game logic is correct and will not fail us. From our extensive manual
+    testing of the GUI, we have demonstrated the correct mapping of our correct
+    logic to the display, and so we can be confident that the display works
+    properly. There are few inputs and behaviors that we have not tried
+    ourselves, and as such we can be confident that the game will work properly
+    for any input that the user throws at it. *)
 
 let id_string s = s
 
