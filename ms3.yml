@@ -1,0 +1,39 @@
+---
+# Members of your group.
+group:
+  - name: Dylan Van Bramer
+    netid: dcv26
+  - name: Henry Rogers
+    netid: hwr34
+  - name: Luke Kulm
+  netid: lbk73
+# Your PM.
+pm:
+  name: Noah Rebei
+  netid: nr285
+# Set to false if you don't want your gallery entry to be public.
+publish: true
+# Pithy title
+title: "John Camlways Caml of Life"
+# OK if this is a Cornell Github link, but public gallery viewers won't be able to see it.
+git-repo: "https://github.coecis.cornell.edu/lbk73/CS3110FinalProject"
+# If you have no demo screencast, replace the url string with an empty string ""
+demo-video-url: ""
+# Write a short, attention-grabbing description of your project.
+desc: >
+  Our project is an implementation of John Conway's 'Game of Life' cellular
+  automata. Our implementation follows the standard rules where a 'Dead' cell
+  comes alive in the next generation if it has exactly 3 living neighbors. A
+  'Live' cell stays alive in the next generation if it has 2 or 3 living
+  neighbors, and otherwise dies.
+
+  Our GUI alows the user to select which cells they want to start alive. The
+  user selects cells to be alive by clicking on them. While the game is running, 
+  the user can stop the game and reset it to the setup state, where their start
+  seed is preserved. They can then adjust the start seed as they wish and run
+  multiple iterations of the game.
+
+  Cells that have died are colored so that they slowly fade back into the 
+  permanently dead color. This allows patterns to trace paths across the world, 
+  and shows the user where living cells have been in the past, and how long ago 
+  those cells were alive.
