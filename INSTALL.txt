@@ -6,8 +6,4 @@ this file)
 - Follow the installation prompts as instructed. Note that Mac (and maybe other)
 users will very likely have to restart their machines to get XQuartz to work.
 - Run [make play] from the directory 'CS3110FinalProject' to spawn the GUI and
-watch a cool demonstration of Conway's Game of Life.
-- There are a few different seeds in the code to run, but currently they must be
-manually adjusted in display.ml. Easily creating custom seeds will be part of
-the next round of adding functionality.
-- There is more to come!
+then play the game of life.
