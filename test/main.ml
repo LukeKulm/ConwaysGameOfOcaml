@@ -4,6 +4,8 @@ open World
 open Util
 open Display
 
+(* Test Plan and Approach: *)
+
 let id_string s = s
 
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether they are
