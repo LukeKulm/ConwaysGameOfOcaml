@@ -241,6 +241,8 @@ let logic_test (name : string) (input : World.t) (expected_output : string) :
   name >:: fun _ ->
   assert_equal expected_output (World.world_to_string input) ~printer:id_string
 
+(* The tests below may seem verbose, but they serve as documentation of the
+   extensive testing that has been done by observing our automata in action. *)
 let logic_tests =
   [
     logic_test "glider test: step 0" glider_world
@@ -665,7 +667,7 @@ let logic_tests =
        ............................................................\n\
        ............................................................\n\
        ............................................................\n";
-    logic_test "semi-random 'bomb' test: step 100" bomb_150
+    logic_test "semi-random 'bomb' test: step 150" bomb_150
       "\n\
        ....................HH.................HH...................\n\
        ............................................................\n\
@@ -707,7 +709,7 @@ let logic_tests =
        ................HHH.....H...........H.....HHH...............\n\
        .................H.....H.............H.....H................\n\
        ..................HHHHH...............HHHHH.................\n";
-    logic_test "semi-random 'bomb' test: step 100" bomb_200
+    logic_test "semi-random 'bomb' test: step 200" bomb_200
       "\n\
        ............................................................\n\
        ............................................................\n\
