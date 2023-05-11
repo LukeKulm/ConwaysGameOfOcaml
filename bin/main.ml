@@ -105,12 +105,14 @@ let rec start () =
   moveto 350 600;
   draw_string "Conway's Game of Life!!";
   set_font "-*-fixed-medium-r-semicondensed--50-*-*-*-*-*-iso8859-1";
-  moveto 300 300;
+  moveto 350 350;
   draw_string "Press a Key To Start the Grid!";
-  moveto 300 200;
+  moveto 350 250;
   draw_string "Click boxes to select them!";
-  moveto 300 100;
-  draw_string "Then press space to start life!";
+  moveto 350 150;
+  draw_string "Then press 'space' to start Life!";
+  moveto 350 50;
+  draw_string "Once started, press 'X' to reset!";
 
   if (wait_next_event [ Key_pressed ]).keypressed then main () else start ()
 (* Wait for a short time before updating the cells again *)
