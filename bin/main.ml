@@ -92,10 +92,26 @@ and main () =
   handle_events ()
 
 let rec start () =
+  print_string "\n\nWelcome to the Game of Life!.\n";
+  print_endline "What color do you want your cells to start off as?.\n";
+  print_endline "Please enter: blue, red, or green.\n";
+  print_string "> ";
+
+  (*match read_line () with | exception End_of_file -> () | file_name ->
+    play_game (data_dir_prefix ^ file_name ^ ".json")*)
   open_graph (" " ^ string_of_int win_width ^ "X" ^ string_of_int win_height);
   set_window_title "The Game of Life";
-  draw_string
-    "Press a Key When You're Happy. Then SPACE to start, and 'X' to reset";
+  set_font "-*-fixed-medium-r-semicondensed--70-*-*-*-*-*-iso8859-1";
+  moveto 350 600;
+  draw_string "Conway's Game of Life!!";
+  set_font "-*-fixed-medium-r-semicondensed--50-*-*-*-*-*-iso8859-1";
+  moveto 300 300;
+  draw_string "Press a Key To Start the Grid!";
+  moveto 300 200;
+  draw_string "Click boxes to select them!";
+  moveto 300 100;
+  draw_string "Then press space to start life!";
+
   if (wait_next_event [ Key_pressed ]).keypressed then main () else start ()
 (* Wait for a short time before updating the cells again *)
 

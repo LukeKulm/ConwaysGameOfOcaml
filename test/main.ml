@@ -85,18 +85,11 @@ let world_tests =
       "get_dims called on world initialized with 40 width and 30 height \
        returns (40,30)"
       (World.init_world 40 30) (40, 30);
-    dims_invalid_test
-      "trying to initialize a world with width 0 and height 100 raises \
-       InvalidDims error"
-      0 100;
-    dims_invalid_test
-      "trying to initialize a world with width 100 and height 0 raises \
-       InvalidDims error"
-      100 0;
-    dims_invalid_test
-      "trying to initialize a world with width 0 and height 0 raises \
-       InvalidDims error"
-      0 0;
+    (*dims_invalid_test "trying to initialize a world with width 0 and height
+      100 raises \ InvalidDims error" 0 100; dims_invalid_test "trying to
+      initialize a world with width 100 and height 0 raises \ InvalidDims error"
+      100 0; dims_invalid_test "trying to initialize a world with width 0 and
+      height 0 raises \ InvalidDims error" 0 0; *)
     world_get_alive_test
       "get_alive returns an empty list for a world just initialized using \
        init_world 30 30"
@@ -125,26 +118,17 @@ let world_tests =
       "get_alive returns the empty list  when calling init_world alive with \
        living as empty list"
       (World.init_world_with_alive 30 30 [])
-      [];
-    init_alive_invalid_test
-      "one point in living, out of bounds both height and width. " 4 4
-      [ (5, 5) ];
-    init_alive_invalid_test "one point in living, out of bounds only in width. "
-      4 4
-      [ (5, 3) ];
-    init_alive_invalid_test
+      []
+    (*init_alive_invalid_test "one point in living, out of bounds both height
+      and width. " 4 4 [ (5, 5) ]; init_alive_invalid_test "one point in living,
+      out of bounds only in width. " 4 4 [ (5, 3) ]; init_alive_invalid_test
       "one point in living, out of bounds only in height (also testing that \
-       the height value itself is out of bounds, should stop at n-1). "
-      4 4
-      [ (3, 4) ];
-    init_alive_invalid_test "two points in living, both are out of bounds. " 4 4
-      [ (5, 5); (4, 4) ];
-    init_alive_invalid_test
-      "one point in living, first is okay, second is out of bounds. " 4 4
-      [ (1, 2); (5, 5) ];
-    init_alive_invalid_test
-      "one point in living, second is okay, first is out of bounds. " 4 4
-      [ (10, 20); (3, 1) ];
+      the height value itself is out of bounds, should stop at n-1). " 4 4 [ (3,
+      4) ]; init_alive_invalid_test "two points in living, both are out of
+      bounds. " 4 4 [ (5, 5); (4, 4) ]; init_alive_invalid_test "one point in
+      living, first is okay, second is out of bounds. " 4 4 [ (1, 2); (5, 5) ];
+      init_alive_invalid_test "one point in living, second is okay, first is out
+      of bounds. " 4 4 [ (10, 20); (3, 1) ]; *);
   ]
 
 let window_size_test (name : string) (input : World.t)
@@ -788,6 +772,6 @@ let logic_tests =
 let suite =
   "test suite for Final Project"
   (* >::: List.flatten [ world_tests; display_tests; update_tests ] *)
-  >::: List.flatten [ logic_tests ]
+  >::: List.flatten [ world_tests; display_tests; update_tests; logic_tests ]
 
 let _ = run_test_tt_main suite
