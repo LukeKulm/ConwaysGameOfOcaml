@@ -27,8 +27,9 @@ val draw_frame_dead : World.t -> unit
 
 (* [draw_frame_dead state] draws the dead cells using the current [state] of the
    world.*)
-val draw_frame_dead_alt : World.t -> unit
-(** [draw_frame_dead_alt state] draws dead cells to be the correct shaded color
-    corresponding to how long each cell has been dead. It stops drawing cells
-    that have been dead longer than a certain threshold, so they are drawn as
-    normal dead cells. *)
+val draw_frame_dead_alt : World.t -> int -> unit
+(** [draw_frame_dead_alt state tail_color] draws dead cells to be the correct
+    shaded color corresponding to how long each cell has been dead. [tail_color]
+    determines what color the tails will be. It stops drawing cells that have
+    been dead longer than a certain threshold, so they are drawn as normal dead
+    cells. *)

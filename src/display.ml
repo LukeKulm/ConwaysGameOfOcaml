@@ -4,7 +4,7 @@ open World
 let cell_size = 20
 
 let initial =
-  init_world_with_alive 30 30 [ (0, 22); (1, 21); (2, 21); (2, 22); (2, 23) ]
+  init_world_with_alive 30 30 [ (0, 22); (1, 21); (2, 21); (2, 22); (2, 23) ] 0
 
 let initial2 =
   init_world_with_alive 50 50
@@ -38,6 +38,7 @@ let initial2 =
       (12, 27);
       (12, 28);
     ]
+    0
 
 (* This one is very cool. *)
 let initial3 =
@@ -77,6 +78,7 @@ let initial3 =
       (12, 27);
       (12, 28);
     ]
+    0
 
 let window_size state =
   (cell_size * fst (get_dims state), cell_size * snd (get_dims state))
@@ -203,15 +205,22 @@ let stupid_color z =
   | 5 -> rgb 200 0 200
   | _ -> rgb 128 128 128
 
-let stupid_color2 z = if z < 80 then rgb ((80 - z) * 3) 0 0 else rgb 0 0 0
-let stupid_color3 z = if z < 21 then rgb 255 (z * 12) 255 else rgb 255 255 255
+let stupid_color20 z = if z < 80 then rgb ((80 - z) * 3) 0 0 else rgb 0 0 0
 
-let rec draw_frame_dead_helper_alt a =
+let stupid_color0 z =
+  if z < 21 then rgb 255 (165 + (z * 4)) (z * 12) else rgb 255 255 255
+
+let stupid_color1 z = if z < 21 then rgb 255 255 (z * 12) else rgb 255 255 255
+let stupid_color2 z = if z < 21 then rgb 255 (z * 12) 255 else rgb 255 255 255
+
+let rec draw_frame_dead_helper_alt a n =
   match a with
   | [] -> ()
   | (x, y, z) :: t ->
-      set_color (stupid_color3 z);
+      if n = 0 then set_color (stupid_color0 z)
+      else if n = 1 then set_color (stupid_color1 z)
+      else set_color (stupid_color2 z);
       draw_cell x y;
-      draw_frame_dead_helper_alt t
+      draw_frame_dead_helper_alt t n
 
-let draw_frame_dead_alt state = draw_frame_dead_helper_alt (get_dead state)
+let draw_frame_dead_alt state n = draw_frame_dead_helper_alt (get_dead state) n

@@ -101,27 +101,27 @@ let world_tests =
     world_get_alive_test
       "get_alive returns the same list entered when calling init_world alive. \
        Here, shown with one point in middle"
-      (World.init_world_with_alive 30 30 [ (14, 14) ])
+      (World.init_world_with_alive 30 30 [ (14, 14) ] 0)
       [ (14, 14) ];
     world_get_alive_test
       "get_alive returns the same list entered when calling init_world alive. \
        Here, shown with two points: both in column 14, but different rows. "
-      (World.init_world_with_alive 30 30 [ (14, 18); (14, 20) ])
+      (World.init_world_with_alive 30 30 [ (14, 18); (14, 20) ] 0)
       [ (14, 18); (14, 20) ];
     world_get_alive_test
       "get_alive returns the same list entered when calling init_world alive. \
        Here, shown with two points: both in column 14, but different rows. "
-      (World.init_world_with_alive 30 30 [ (14, 18); (14, 20) ])
+      (World.init_world_with_alive 30 30 [ (14, 18); (14, 20) ] 0)
       [ (14, 18); (14, 20) ];
     world_get_alive_test
       "get_alive returns the same list entered when calling init_world alive. \
        Here, shown with two points: both in row 14, but different columns. "
-      (World.init_world_with_alive 30 30 [ (10, 14); (2, 14) ])
+      (World.init_world_with_alive 30 30 [ (10, 14); (2, 14) ] 0)
       [ (10, 14); (2, 14) ];
     world_get_alive_test
       "get_alive returns the empty list  when calling init_world alive with \
        living as empty list"
-      (World.init_world_with_alive 30 30 [])
+      (World.init_world_with_alive 30 30 [] 0)
       []
     (*init_alive_invalid_test "one point in living, out of bounds both height
       and width. " 4 4 [ (5, 5) ]; init_alive_invalid_test "one point in living,
@@ -160,15 +160,19 @@ let display_tests =
   ]
 
 let grid_stable_square =
-  World.init_world_with_alive 4 4 [ (1, 1); (1, 2); (2, 1); (2, 2) ]
+  World.init_world_with_alive 4 4 [ (1, 1); (1, 2); (2, 1); (2, 2) ] 0
 
 let grid_pre_stable_square =
-  World.init_world_with_alive 4 4 [ (1, 1); (1, 2); (2, 2) ]
+  World.init_world_with_alive 4 4 [ (1, 1); (1, 2); (2, 2) ] 0
 
-let grid_three_tall = World.init_world_with_alive 5 5 [ (2, 1); (2, 2); (2, 3) ]
-let grid_three_wide = World.init_world_with_alive 5 5 [ (1, 2); (2, 2); (3, 2) ]
-let grid_diag = World.init_world_with_alive 5 5 [ (1, 1); (2, 2); (3, 3) ]
-let grid_triomino = World.init_world_with_alive 5 5 [ (1, 1); (1, 2); (2, 3) ]
+let grid_three_tall =
+  World.init_world_with_alive 5 5 [ (2, 1); (2, 2); (2, 3) ] 0
+
+let grid_three_wide =
+  World.init_world_with_alive 5 5 [ (1, 2); (2, 2); (3, 2) ] 0
+
+let grid_diag = World.init_world_with_alive 5 5 [ (1, 1); (2, 2); (3, 3) ] 0
+let grid_triomino = World.init_world_with_alive 5 5 [ (1, 1); (1, 2); (2, 3) ] 0
 
 let update_test (name : string) (input : World.t)
     (expected_output : (int * int) list) : test =
@@ -239,13 +243,13 @@ let dead_tests =
   Begin Terminal Tests ***************************************************
   ************************************************************************ *)
 let glider_world =
-  init_world_with_alive 8 8 [ (0, 4); (1, 4); (2, 4); (2, 5); (1, 6) ]
+  init_world_with_alive 8 8 [ (0, 4); (1, 4); (2, 4); (2, 5); (1, 6) ] 0
 
 let glider_top =
-  init_world_with_alive 8 8 [ (0, 0); (1, 0); (2, 0); (2, 1); (1, 2) ]
+  init_world_with_alive 8 8 [ (0, 0); (1, 0); (2, 0); (2, 1); (1, 2) ] 0
 
 let glider_corner =
-  init_world_with_alive 8 8 [ (5, 7); (6, 7); (7, 7); (7, 6); (6, 5) ]
+  init_world_with_alive 8 8 [ (5, 7); (6, 7); (7, 7); (7, 6); (6, 5) ] 0
 
 let glider_corner_5 =
   World.(
@@ -274,6 +278,7 @@ let bomb =
       (31, 22);
       (30, 21);
     ]
+    0
 
 let rec update world n =
   match n with
