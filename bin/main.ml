@@ -33,6 +33,32 @@ let draw_grid () =
     lineto win_width y
   done
 
+let draw_caml = ()
+
+let love_list =
+  [
+    (15, 8);
+    (16, 8);
+    (17, 8);
+    (18, 8);
+    (19, 8);
+    (20, 8);
+    (21, 8);
+    (22, 8);
+    (23, 8);
+    (24, 8);
+    (25, 8);
+    (15, 19);
+    (16, 18);
+    (17, 17);
+    (18, 16);
+    (19, 15);
+    (20, 14);
+    (21, 13);
+    (22, 13);
+    (23, 13);
+  ]
+
 let handle_click x y =
   let square_x = x / square_size in
   let square_y = y / square_size in
@@ -81,11 +107,11 @@ and main () =
     let event = wait_next_event [ Button_down; Key_pressed ] in
     if event.button then (
       handle_click event.mouse_x event.mouse_y;
-      (* while button_down () do let new_event = wait_next_event [ Button_up ]
-         in let new_x = new_event.mouse_x / square_size in let new_y =
-         new_event.mouse_y / square_size in if new_x >= 0 && new_x <
-         num_squares_x && new_y >= 0 && new_y < num_squares_y then handle_drag
-         new_x new_y done; *)
+      (*while button_down () do let new_event = wait_next_event [ Button_up ] in
+        let new_x = new_event.mouse_x / square_size in let new_y =
+        new_event.mouse_y / square_size in if new_x >= 0 && new_x <
+        num_squares_x && new_y >= 0 && new_y < num_squares_y then handle_drag
+        new_x new_y done; *)
       handle_events ())
     else if event.keypressed && event.key = 'r' then
       animate (to_world grid) (rgb 255 0 0)
@@ -93,7 +119,16 @@ and main () =
       animate (to_world grid) (rgb 0 255 0)
     else if event.keypressed && event.key = 'b' then
       animate (to_world grid) (rgb 0 0 255)
+    else if event.keypressed && event.key = 'c' then draw_caml
+    else if event.keypressed && event.key = 'l' then draw_love love_list
     else handle_events ()
+  and draw_love lst =
+    match lst with
+    | h :: t ->
+        grid.(fst h).(snd h) <- black;
+        draw_grid ();
+        draw_love t
+    | _ -> handle_events ()
   in
   handle_events ()
 
