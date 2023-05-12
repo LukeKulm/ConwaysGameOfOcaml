@@ -110,21 +110,12 @@ let rec start () =
   moveto 350 600;
   draw_string "Conway's Game of Life!!";
   set_font "-*-fixed-medium-r-semicondensed--50-*-*-*-*-*-iso8859-1";
-  moveto 300 400;
-  draw_string "Press ANY key to start the grid!";
   moveto 300 300;
+  draw_string "Press a Key To Start the Grid!";
+  moveto 300 200;
   draw_string "Click boxes to select them!";
-  moveto 100 200;
-  draw_string "THEN, press one of the following to start the animation:";
-  moveto 100 100;
-  set_color (rgb 255 0 0);
-  draw_string "r for red";
-  moveto 500 100;
-  set_color (rgb 0 255 0);
-  draw_string "g for green";
-  moveto 900 100;
-  set_color (rgb 0 0 255);
-  draw_string "b for blue";
+  moveto 300 100;
+  draw_string "Then press space to start life!";
 
   if (wait_next_event [ Key_pressed ]).keypressed then main () else start ()
 (* Wait for a short time before updating the cells again *)
