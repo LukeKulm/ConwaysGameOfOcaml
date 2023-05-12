@@ -16,13 +16,14 @@ val init_world : int -> int -> t
     [width] wide and [height] tall when both width and height are >0. Otherwise,
     raises InvalidDims (width,height). *)
 
-val init_world_with_alive : int -> int -> (int * int) list -> t
-(** [init_world_with_cells width height living] Initializes a world that is of
-    [width] wide and [height] tall and sets all cells at coordinates specified
-    by [living] to be alive. All other cells are dead. All points within living
-    must be within the range of the width and height. If not, raises
-    InvalidDims(x,y) with the coordinates ofs the point in violation. REQUIRES
-    no repeats in living *)
+val init_world_with_alive : int -> int -> (int * int) list -> int -> t
+(** [init_world_with_cells width height living tail_color] Initializes a world
+    that is of [width] wide and [height] tall and sets all cells at coordinates
+    specified by [living] to be alive. All other cells are dead. All points
+    within living must be within the range of the width and height. [tail_color]
+    is an int that corresponds to the color of the fading dead cells. If not,
+    raises InvalidDims(x,y) with the coordinates ofs the point in violation.
+    REQUIRES no repeats in living *)
 
 val get_dims : t -> int * int
 (** [get_dims world] returns the dimensions of [world]. *)

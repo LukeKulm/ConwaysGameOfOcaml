@@ -83,20 +83,21 @@ let get_alive_cells grid =
   done;
   !alive_cells
 
-let to_world grid =
+let to_world grid n =
   init_world_with_alive (win_width / square_size) (win_height / square_size)
-    (get_alive_cells grid)
+    (get_alive_cells grid) n
 
-let rec animate state color_var =
+let rec animate state color_var n =
   if key_pressed () && read_key () = 'x' then main ()
-  else (
-    clear_graph ();
-    set_color color_var;
-    draw_frame state;
-    draw_frame_dead_alt state;
-    draw_string "PRESS";
-    Unix.sleepf frame_rate;
-    animate (update_world state) color_var)
+  else
+    (clear_graph ();
+     set_color color_var;
+     draw_frame state;
+     draw_frame_dead_alt state n;
+     draw_string "PRESS";
+     Unix.sleepf frame_rate;
+     animate (update_world state) color_var)
+      n
 
 and main () =
   open_graph "";
@@ -114,13 +115,11 @@ and main () =
         new_x new_y done; *)
       handle_events ())
     else if event.keypressed && event.key = 'r' then
-      animate (to_world grid) (rgb 255 0 0)
+      animate (to_world grid 0) (rgb 255 0 0) 0
     else if event.keypressed && event.key = 'g' then
-      animate (to_world grid) (rgb 0 255 0)
+      animate (to_world grid 1) (rgb 0 255 0) 1
     else if event.keypressed && event.key = 'b' then
-      animate (to_world grid) (rgb 0 0 255)
-    else if event.keypressed && event.key = 'c' then draw_caml
-    else if event.keypressed && event.key = 'l' then draw_love love_list
+      animate (to_world grid 2) (rgb 0 0 255) 2
     else handle_events ()
   and draw_love lst =
     match lst with
