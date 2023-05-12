@@ -9,6 +9,7 @@ let num_squares_x = win_width / square_size
 let num_squares_y = win_height / square_size
 let grid = Array.make_matrix num_squares_y num_squares_x white
 let frame_rate = 0.03
+let color_red () = rgb 255 0 0
 
 let draw_square x y color =
   set_color color;
@@ -60,16 +61,16 @@ let to_world grid =
   init_world_with_alive (win_width / square_size) (win_height / square_size)
     (get_alive_cells grid)
 
-let rec animate state =
+let rec animate state color_var =
   if key_pressed () && read_key () = 'x' then main ()
   else (
     clear_graph ();
-    set_color (rgb 0 0 255);
+    set_color color_var;
     draw_frame state;
     draw_frame_dead_alt state;
     draw_string "PRESS";
     Unix.sleepf frame_rate;
-    animate (update_world state))
+    animate (update_world state) color_var)
 
 and main () =
   open_graph "";
@@ -86,16 +87,20 @@ and main () =
          num_squares_x && new_y >= 0 && new_y < num_squares_y then handle_drag
          new_x new_y done; *)
       handle_events ())
-    else if event.keypressed && event.key = ' ' then animate (to_world grid)
+    else if event.keypressed && event.key = 'r' then
+      animate (to_world grid) (rgb 255 0 0)
+    else if event.keypressed && event.key = 'g' then
+      animate (to_world grid) (rgb 0 255 0)
+    else if event.keypressed && event.key = 'b' then
+      animate (to_world grid) (rgb 0 0 255)
     else handle_events ()
   in
   handle_events ()
 
 let rec start () =
-  print_string "\n\nWelcome to the Game of Life!.\n";
-  print_endline "What color do you want your cells to start off as?.\n";
-  print_endline "Please enter: blue, red, or green.\n";
-  print_string "> ";
+  (* print_string "\n\nWelcome to the Game of Life!.\n"; print_endline "What
+     color do you want your cells to start off as?.\n"; print_endline "Please
+     enter: blue, red, or green.\n"; *)
 
   (*match read_line () with | exception End_of_file -> () | file_name ->
     play_game (data_dir_prefix ^ file_name ^ ".json")*)
@@ -105,12 +110,21 @@ let rec start () =
   moveto 350 600;
   draw_string "Conway's Game of Life!!";
   set_font "-*-fixed-medium-r-semicondensed--50-*-*-*-*-*-iso8859-1";
+  moveto 300 400;
+  draw_string "Press ANY key to start the grid!";
   moveto 300 300;
-  draw_string "Press a Key To Start the Grid!";
-  moveto 300 200;
   draw_string "Click boxes to select them!";
-  moveto 300 100;
-  draw_string "Then press space to start life!";
+  moveto 100 200;
+  draw_string "THEN, press one of the following to start the animation:";
+  moveto 100 100;
+  set_color (rgb 255 0 0);
+  draw_string "r for red";
+  moveto 500 100;
+  set_color (rgb 0 255 0);
+  draw_string "g for green";
+  moveto 900 100;
+  set_color (rgb 0 0 255);
+  draw_string "b for blue";
 
   if (wait_next_event [ Key_pressed ]).keypressed then main () else start ()
 (* Wait for a short time before updating the cells again *)

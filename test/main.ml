@@ -771,7 +771,6 @@ let logic_tests =
 
 let suite =
   "test suite for Final Project"
-  (* >::: List.flatten [ world_tests; display_tests; update_tests ] *)
   >::: List.flatten [ world_tests; display_tests; update_tests; logic_tests ]
 
 let _ = run_test_tt_main suite
