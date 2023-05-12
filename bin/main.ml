@@ -380,7 +380,7 @@ and main () =
     else if event.keypressed && event.key = 'g' then
       animate (to_world grid 1) (rgb 0 255 0) 1
     else if event.keypressed && event.key = 'b' then
-      animate (to_world grid) (rgb 0 0 255)
+      animate (to_world grid 0) (rgb 0 0 255) 0
     else if event.keypressed && event.key = 'c' then draw_love caml_list
     else if event.keypressed && event.key = 'l' then draw_love love_list
     else handle_events ()
