@@ -124,10 +124,9 @@ let rec start () =
   draw_string "g for green";
   moveto 900 100;
   set_color (rgb 0 0 255);
-  draw_string "b for blue"
-;;
+  draw_string "b for blue";
 
-if (wait_next_event [ Key_pressed ]).keypressed then main () else start ()
+  if (wait_next_event [ Key_pressed ]).keypressed then main () else start ()
 (* Wait for a short time before updating the cells again *)
 
 let _ = start ()
