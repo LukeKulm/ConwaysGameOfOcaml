@@ -49,7 +49,11 @@ let cmp_set_like_lists lst1 lst2 =
 let printer_help_tuple (a, b) =
   "(" ^ string_of_int a ^ ", " ^ string_of_int b ^ ")"
 
+let printer_help_triple (a, b, c) =
+  "(" ^ string_of_int a ^ ", " ^ string_of_int b ^ ", " ^ string_of_int c ^ ")"
+
 let print_to_string d = Util.string_of_list printer_help_tuple d
+let print_of_triple d = Util.string_of_list printer_help_triple d
 
 let get_dims_test (name : string) (input : World.t)
     (expected_output : int * int) : test =
@@ -195,6 +199,40 @@ let update_tests =
        horizontal pattern along middle axis"
       grid_triomino
       [ (1, 2); (2, 2) ];
+  ]
+
+let dead_test (name : string) (input : World.t)
+    (expected_output : (int * int * int) list) : test =
+  name >:: fun _ ->
+  assert_equal ~cmp:cmp_set_like_lists expected_output
+    (World.update_world input |> World.get_dead)
+    ~printer:print_of_triple
+
+let dead_tests =
+  [
+    dead_test "dead called on stable 2*2 square returns empty"
+      grid_stable_square [];
+    dead_test "grid three tall returns the two beides the center"
+      grid_three_tall
+      [ (2, 1, 1); (2, 3, 1) ];
+    dead_test "grid three wide returns the two beides the center"
+      grid_three_wide
+      [ (1, 2, 1); (3, 2, 1) ];
+    dead_test "grid diaganol cells die correct" grid_diag
+      [ (1, 1, 1); (3, 3, 1) ];
+    dead_test "cells that have been dead for more than one frame"
+      (World.update_world grid_diag)
+      [ (1, 1, 2); (3, 3, 2); (2, 2, 1) ];
+    dead_test "check that cells will go back to being dead"
+      (World.update_world grid_three_tall)
+      [ (1, 2, 1); (3, 2, 1) ];
+    dead_test "trinomio test 1" grid_triomino [ (2, 3, 1); (1, 1, 1) ];
+    dead_test "trinomi test 2"
+      (World.update_world grid_triomino)
+      [ (2, 3, 2); (1, 1, 2); (1, 2, 1); (2, 2, 1) ];
+    dead_test "trinomi test 3"
+      (grid_triomino |> World.update_world |> World.update_world)
+      [ (2, 3, 3); (1, 1, 3); (1, 2, 2); (2, 2, 2) ];
   ]
 
 (***************************************************************************
@@ -771,6 +809,7 @@ let logic_tests =
 
 let suite =
   "test suite for Final Project"
-  >::: List.flatten [ world_tests; display_tests; update_tests; logic_tests ]
+  >::: List.flatten
+         [ world_tests; display_tests; update_tests; logic_tests; dead_tests ]
 
 let _ = run_test_tt_main suite
