@@ -4,7 +4,7 @@ open World
 let cell_size = 20
 
 let initial =
-  init_world_with_alive 30 30 [ (0, 22); (1, 21); (2, 21); (2, 22); (2, 23) ] 0
+  init_world_with_alive 30 30 [ (0, 22); (1, 21); (2, 21); (2, 22); (2, 23) ]
 
 let initial2 =
   init_world_with_alive 50 50
@@ -38,7 +38,6 @@ let initial2 =
       (12, 27);
       (12, 28);
     ]
-    0
 
 (* This one is very cool. *)
 let initial3 =
@@ -78,7 +77,6 @@ let initial3 =
       (12, 27);
       (12, 28);
     ]
-    0
 
 let window_size state =
   (cell_size * fst (get_dims state), cell_size * snd (get_dims state))

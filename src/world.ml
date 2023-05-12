@@ -20,7 +20,7 @@ let set_cell world x y cell = world.(y).(x) <- cell
 
 let get_cell world x y = world.(y).(x)
 
-let init_world_with_alive width height alive n =
+let init_world_with_alive width height alive =
   let world = init_world width height in
   List.iter (fun (x, y) -> set_cell world x y Alive) alive;
   world
