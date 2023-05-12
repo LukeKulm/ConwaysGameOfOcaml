@@ -27,11 +27,12 @@ desc: >
   'Live' cell stays alive in the next generation if it has 2 or 3 living
   neighbors, and otherwise dies.
 
-  Our GUI alows the user to select which cells they want to start alive. The
-  user selects cells to be alive by clicking on them. While the game is running, 
-  the user can stop the game and reset it to the setup state, where their start
-  seed is preserved. They can then adjust the start seed as they wish and run
-  multiple iterations of the game.
+  Our GUI alows the user to select which cells they want to start alive, with a
+   fun option to add OCaml designs! The user selects cells to be alive by 
+   clicking on them. While the game is running, the user can stop the 
+   game and reset it to the setup state, where their start
+  seed is preserved. They can then adjust the start seed 
+  as they wish and run multiple iterations of the game.
 
   Cells that have died are colored so that they slowly fade back into the 
   permanently dead color. This allows patterns to trace paths across the world, 
